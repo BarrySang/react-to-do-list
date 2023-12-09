@@ -1,6 +1,6 @@
 function ViewToDos ({toDos, deleteToDo, toggleChecked}) {
     
-    if (toDos.length > 0) {
+    if (toDos && toDos.length > 0) {
         return (
             <div>
                 {toDos.map(toDo => (
