@@ -4,8 +4,11 @@ function ViewToDos ({toDos, deleteToDo, toggleChecked}) {
         return (
             <div>
                 {toDos.map(toDo => (
-                    <p key={toDo.id}>
-                        <input type="checkbox" checked={toDo.checked} onChange={() => toggleChecked(toDo.id)}/> {toDo.toDoText} {' '} <button onClick={() => deleteToDo(toDo.id)}>Delete To-Do</button>
+                    <p key={toDo.id} className="toDo-container">
+                        <input type="checkbox" checked={toDo.checked} onChange={() => toggleChecked(toDo.id)}/>
+                        <label>{toDo.toDoText}</label>
+                        {' '}
+                        <button onClick={() => deleteToDo(toDo.id)}>Delete To-Do</button>
                     </p>
                 ))}
             </div>

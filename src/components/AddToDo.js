@@ -1,7 +1,4 @@
-import { useState } from "react";
-
-function AddToDo ({addToDo}) {
-    const [toDo, setToDo] = useState('');
+function AddToDo ({toDo, setToDo, addToDo}) {
     
     return (
         <div>

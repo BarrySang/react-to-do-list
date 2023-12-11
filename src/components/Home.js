@@ -7,6 +7,7 @@ import ViewToDos from "./ViewToDos";
 
 function Home () {
     const [toDos, setToDos] = useState([]);
+    const [toDo, setToDo] = useState('');
 
     // get toDos from localstorage if they already exist
     useEffect(() => {
@@ -23,6 +24,11 @@ function Home () {
 
     // add to-dos to toDos array in state
     function addToDo (toDo) {
+        // if user attempts to enter an empty to-do
+        if (!toDo) {
+            return
+        }
+
         // new set of to-dos
         let newToDos = [
             ...toDos,
@@ -31,6 +37,9 @@ function Home () {
 
         // save toDos in state and in localstorage
         saveToDos(newToDos);
+
+        // clear toDo string
+        setToDo('')
     }
 
     // delete item from toDos array in state
@@ -63,7 +72,7 @@ function Home () {
                 <h1>To-Do List</h1>
             </header>
             <section>
-                <AddToDo addToDo = {addToDo} />
+                <AddToDo toDo={toDo} setToDo={setToDo} addToDo = {addToDo} />
                 <ViewToDos toDos={toDos} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />            
             </section>
         </div>
