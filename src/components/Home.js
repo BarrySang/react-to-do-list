@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AddToDo from "./AddToDo";
 import ViewToDos from "./ViewToDos";
 
 // to-do id
 // let nextId = 0;
 
-function Home () {
-    const [toDos, setToDos] = useState([]);
+function Home ({toDos, setToDos}) {
+    // const [toDos, setToDos] = useState([]);
     const [toDo, setToDo] = useState('');
 
-    // get toDos from localstorage if they already exist
-    useEffect(() => {
-        setToDos(JSON.parse(localStorage.getItem('toDos')) || []);
-    }, [])
+    // // get toDos from localstorage if they already exist
+    // useEffect(() => {
+    //     setToDos(JSON.parse(localStorage.getItem('toDos')) || []);
+    // }, [])
 
     function saveToDos(newToDos) {
         // update toDos in state
