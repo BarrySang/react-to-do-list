@@ -87,14 +87,11 @@ function App() {
       let toDosOlder = localAllToDos.filter(toDos => toDos.date < date)
 
       // setToDos(JSON.parse(localStorage.getItem('toDos')) || []);
-      // let toDosTest = []
 
       setTodaysToDos(toDosToday.length ? toDosToday[0].toDosArray : [])
       setUpcomingToDos(toDosUpcoming.length ? toDosUpcoming : [])
       setOlderToDos(toDosOlder.length ? toDosOlder: [])
   }, [])
-
-  // console.log(toDos)
 
   return (
     <BrowserRouter>
