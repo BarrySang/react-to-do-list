@@ -1,12 +1,13 @@
 function ViewToDos ({toDos, deleteToDo, toggleChecked}) {
-    
+
     if (toDos && toDos.length > 0) {
         return (
+            
             <div>
                 {toDos.map(toDo => (
                     <p key={toDo.id} className="toDo-container">
                         <input type="checkbox" checked={toDo.checked} onChange={() => toggleChecked(toDo.id)}/>
-                        <label>{toDo.toDoText}</label>
+                        <label>{toDo.toDosText}</label>
                         {' '}
                         <button onClick={() => deleteToDo(toDo.id)}>Delete To-Do</button>
                     </p>

@@ -1,4 +1,5 @@
-function OlderToDos () {
+function OlderToDos ({olderToDos}) {
+    console.log(olderToDos)
     return (
         <div>
             <h2>Older To-Dos</h2>
