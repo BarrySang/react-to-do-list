@@ -1,10 +1,18 @@
+import ToDosListGroups from "./ToDosListGroups";
+import ViewToDos from "./ViewToDos";
+
 function UpcomingToDos ({upcomingToDos}) {
-    console.log(upcomingToDos)
-    return (
-        <div>
-            <h2>Upcoming To-Dos</h2>
-        </div>
-    )
+    if (upcomingToDos.length) {
+        console.log(upcomingToDos)
+        return (
+            <div>
+                
+                <ToDosListGroups toDosListGroups={upcomingToDos} />
+            </div>
+        )
+        
+    }
+    
 }
 
 export default UpcomingToDos

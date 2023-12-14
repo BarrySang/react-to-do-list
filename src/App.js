@@ -4,7 +4,9 @@ import './App.css';
 import Home from './components/Home';
 import Layout from './components/Layout';
 import OlderToDos from './components/OlderToDos';
+import ParamsTest from './components/ParamsTest';
 import UpcomingToDos from './components/UpcomingToDos';
+import ViewToDos from './components/ViewToDos';
 
 function App() {
   const [toDos, setToDos] = useState([]);
@@ -15,7 +17,7 @@ function App() {
 
   let allToDos = [
     {
-      date: "12/12/2023",
+      date: "13-12-2023",
       toDosArray: [
         {
           id: 1,
@@ -35,7 +37,7 @@ function App() {
       ]
     },
     {
-      date: "13/12/2023",
+      date: "14-12-2023",
       toDosArray: [
         {
           id: 1,
@@ -55,7 +57,27 @@ function App() {
       ]
     },
     {
-      date: "14/12/2023",
+      date: "15-12-2023",
+      toDosArray: [
+        {
+          id: 1,
+          toDosText: 'first to-do',
+          checked: false
+        },
+        {
+          id: 2,
+          toDosText: 'second to-do',
+          checked: false
+        },
+        {
+          id: 3,
+          toDosText: 'third to-do',
+          checked: false
+        }
+      ]
+    },
+    {
+      date: "16-12-2023",
       toDosArray: [
         {
           id: 1,
@@ -81,10 +103,11 @@ function App() {
     let localAllToDos = allToDos
 
       let today = new Date()
-      let date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear()
+      let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()
       let toDosToday = localAllToDos.filter(toDos => toDos.date === date)
       let toDosUpcoming = localAllToDos.filter(toDos => toDos.date > date)
       let toDosOlder = localAllToDos.filter(toDos => toDos.date < date)
+      
 
       // setToDos(JSON.parse(localStorage.getItem('toDos')) || []);
 
@@ -93,12 +116,20 @@ function App() {
       setOlderToDos(toDosOlder.length ? toDosOlder: [])
   }, [])
 
+  // get to-dos for a given date
+  function getSpecificTodos (date) {
+    let dateText = date.date
+    let toDos = allToDos.filter(toDos => toDos.date === dateText)
+    return toDos
+  }
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home toDos={todaysToDos} setToDos={setToDos} />} />
           <Route path="upcomingToDos" element={<UpcomingToDos upcomingToDos={upcomingToDos} />} />
+          <Route path="/upcomingToDos/:date" element={<ViewToDos getSpecificToDos={getSpecificTodos} />} />
           <Route path="olderToDos" element={<OlderToDos olderToDos={olderToDos} />} />
         </Route>
       </Routes>
