@@ -1,29 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddToDo from "./AddToDo";
 import ViewToDos from "./ViewToDos";
 
-// to-do id
-// let nextId = 0;
-
-function Home ({toDos, setToDos}) {
-    // const [toDos, setToDos] = useState([]);
+function Home ({getTodaysDate}) {
+    const [allToDos, setAllTodos] = useState([])
+    const [toDos, setToDos] = useState([]);
     const [toDo, setToDo] = useState('');
+    
 
-    // // get toDos from localstorage if they already exist
-    // useEffect(() => {
-    //     setToDos(JSON.parse(localStorage.getItem('toDos')) || []);
-    // }, [])
+    // get today's to-dos
+    useEffect(() => {
+        let date = getTodaysDate()
 
-    function saveToDos(newToDos) {
+        // get all to-dos from localstorage
+        let allToDos = JSON.parse(localStorage.getItem('allToDos'))
+        let toDosToday = allToDos.filter(toDos => toDos.date === date)
+        if (toDosToday && toDosToday.length) {
+            setToDos(toDosToday[0].toDosArray);
+            setAllTodos(JSON.parse(localStorage.getItem('allToDos')) || [])
+        }
+    }, [])
+
+    // function to save to-dos in state and in localstorage
+    function saveToDos(newToDos, newAllToDos) {
         // update toDos in state
         setToDos(newToDos);
         
         // update toDos in localstorage
-        localStorage.setItem('toDos', JSON.stringify(newToDos));
+        localStorage.setItem('allToDos', JSON.stringify(newAllToDos));
     }
 
     // add to-dos to toDos array in state
     function addToDo (toDo) {
+        // console.log(toDo)
         // if user attempts to enter an empty to-do
         if (!toDo) {
             return
@@ -32,13 +41,24 @@ function Home ({toDos, setToDos}) {
         // new set of to-dos
         let newToDos = [
             ...toDos,
-            {id: toDos.length ? toDos[toDos.length - 1].id + 1 : 1, toDoText: toDo, checked: false}
+            {id: toDos.length ? toDos[toDos.length - 1].id + 1 : 1, toDosText: toDo, checked: false}
         ];
 
-        // save toDos in state and in localstorage
-        saveToDos(newToDos);
+        let newAllToDos = allToDos.map(toDos => {
+            if (toDos.date !== (getTodaysDate())) {
+                return toDos
+            } else {
+                return {
+                    ...toDos,
+                    toDosArray: newToDos
+                }
+            }
+        })
 
-        // clear toDo string
+        // save toDos in state and in localstorage
+        saveToDos(newToDos, newAllToDos)
+
+        // reset to-do input
         setToDo('')
     }
 
@@ -47,8 +67,20 @@ function Home ({toDos, setToDos}) {
         // filter out any toDo with the if 'toDoId'
         let newToDos = toDos.filter(toDos => toDos.id !== toDoId)
 
+        // update allToDos
+        let newAllToDos = allToDos.map(toDos => {
+            if (toDos.date !== (getTodaysDate())) {
+                return toDos
+            } else {
+                return {
+                    ...toDos,
+                    toDosArray: newToDos
+                }
+            }
+        })
+
         // update toDos in state and update localstorage
-        saveToDos(newToDos)
+        saveToDos(newToDos, newAllToDos)
     }
 
     // function to toggle 'checked' property of a to-do
@@ -62,8 +94,20 @@ function Home ({toDos, setToDos}) {
             }
         })
 
+        // update allToDos
+        let newAllToDos = allToDos.map(toDos => {
+            if (toDos.date !== (getTodaysDate())) {
+                return toDos
+            } else {
+                return {
+                    ...toDos,
+                    toDosArray: newToDos
+                }
+            }
+        })
+
         // update toDos in state and and update localstorage
-        saveToDos(newToDos)
+        saveToDos(newToDos, newAllToDos)
     }
 
     return (

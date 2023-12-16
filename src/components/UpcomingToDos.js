@@ -3,11 +3,11 @@ import ViewToDos from "./ViewToDos";
 
 function UpcomingToDos ({upcomingToDos}) {
     if (upcomingToDos.length) {
-        console.log(upcomingToDos)
+        
         return (
             <div>
                 
-                <ToDosListGroups toDosListGroups={upcomingToDos} />
+                <ToDosListGroups toDosListGroups={upcomingToDos} btnLink={'/upcomingToDos/'} />
             </div>
         )
         
