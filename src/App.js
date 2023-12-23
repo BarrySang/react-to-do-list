@@ -17,29 +17,8 @@ function App() {
 
   // get toDos from localstorage if they already exist
   useEffect(() => {
-    // console.log(JSON.parse(localStorage.getItem('allToDos')))
     setTestAllToDos(JSON.parse(localStorage.getItem('allToDos')) || [])
-    // console.log(testAllToDos)   
-    // setTestAllToDos(JSON.parse(localStorage.getItem('allToDos')) || [])
-    // let localAllToDos = testAllToDos
-    // // // console.log(localAllToDos)
-
-    //   let today = new Date()
-    //   let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()
-      
-    //   let toDosUpcoming = localAllToDos.filter(toDos => toDos.date > date)
-    //   // console.log(toDosUpcoming)
-    //   let toDosToday = localAllToDos.filter(toDos => toDos.date === date)
-    //   console.log(toDosToday)
-    //   let toDosOlder = localAllToDos.filter(toDos => toDos.date < date)
-      
-
-    //   // setToDos(JSON.parse(localStorage.getItem('toDos')) || []);
-    //   setUpcomingToDos(toDosUpcoming.length ? toDosUpcoming : [])
-    //   setOlderToDos(toDosOlder.length ? toDosOlder: [])
   }, [])
-
-  // console.log(testAllToDos)
 
   // set to-dos
   useEffect(() => {
@@ -67,8 +46,33 @@ function App() {
     return toDos
   }
 
+  // function to delete to-dos
+  function deleteToDo (toDoId, toDos, date) {
+    // filter out any toDo with the if 'toDoId'
+    let newToDos = toDos.filter(toDos => toDos.id !== toDoId)
+
+    // update allToDos
+    let newAllToDos = testAllToDos.map(toDos => {
+        if (toDos.date !== date) {
+            return toDos
+        } else {
+            return {
+                ...toDos,
+                toDosArray: newToDos
+            }
+        }
+    })
+
+    // update toDos in state and and update localstorage
+    localStorage.setItem('allToDos', JSON.stringify(newAllToDos))
+    setTestAllToDos(newAllToDos)
+  }
+
   // function to toggle 'checked' property of a to-do
   function toggleChecked(toDoId, toDos, date) {
+    if (date < getTodaysDate()) {
+      return
+    }
 
     // change the 'checked' value of the toDo with the id 'toDoId'
     let newToDos = toDos.map(toDo => {
@@ -126,17 +130,20 @@ function App() {
     // setTestAllToDos(newAllToDos)
     localStorage.setItem('allToDos', JSON.stringify(newAllToDos))
     setTestAllToDos(newAllToDos)
+
+    // clear input
+    setToDo('')
   }
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home getTodaysDate={getTodaysDate} addToDo={addToDo} setToDo={setToDo} toDo={toDo} toDos={todaysToDos} toggleChecked={toggleChecked} />} />
+          <Route index element={<Home getTodaysDate={getTodaysDate} addToDo={addToDo} setToDo={setToDo} toDo={toDo} toDos={todaysToDos} toggleChecked={toggleChecked} deleteToDo={deleteToDo} />} />
           <Route path="upcomingToDos" element={<UpcomingToDos upcomingToDos={upcomingToDos} />} />
-          <Route path="upcomingToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} />} />
+          <Route path="upcomingToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />} />
           <Route path="olderToDos" element={<OlderToDos olderToDos={olderToDos} />} />
-          <Route path="olderToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos}/>} />
+          <Route path="olderToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} />} />
         </Route>
       </Routes>
     </BrowserRouter>

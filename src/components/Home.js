@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AddToDo from "./AddToDo";
 import ViewToDos from "./ViewToDos";
 
-function Home ({getTodaysDate, addToDo, toDo, setToDo, toDos, toggleChecked}) {
+function Home ({getTodaysDate, addToDo, toDo, setToDo, toDos, toggleChecked, deleteToDo}) {
     
     // console.log(toDos)
     // if (toDos.length) {
@@ -11,36 +11,9 @@ function Home ({getTodaysDate, addToDo, toDo, setToDo, toDos, toggleChecked}) {
     const [allToDos, setAllTodos] = useState([])
 
     // delete item from toDos array in state
-    function deleteToDo (toDoId) {
-        // filter out any toDo with the if 'toDoId'
-        let newToDos = toDos.filter(toDos => toDos.id !== toDoId)
-
-        // update allToDos
-        let newAllToDos = allToDos.map(toDos => {
-            if (toDos.date !== (getTodaysDate())) {
-                return toDos
-            } else {
-                return {
-                    ...toDos,
-                    toDosArray: newToDos
-                }
-            }
-        })
-
-        // update toDos in state and update localstorage
-        // saveToDos(newToDos, newAllToDos)
-    }
-
-    // // function to toggle 'checked' property of a to-do
-    // function toggleChecked(toDoId) {
-    //     // change the 'checked' value of the toDo with the id 'toDoId'
-    //     let newToDos = toDos.map(toDo => {
-    //         if (toDo.id === toDoId) {
-    //             return {...toDo, checked: !toDo.checked}
-    //         } else {
-    //             return toDo
-    //         }
-    //     })
+    // function deleteToDo (toDoId) {
+    //     // filter out any toDo with the if 'toDoId'
+    //     let newToDos = toDos.filter(toDos => toDos.id !== toDoId)
 
     //     // update allToDos
     //     let newAllToDos = allToDos.map(toDos => {
@@ -54,7 +27,7 @@ function Home ({getTodaysDate, addToDo, toDo, setToDo, toDos, toggleChecked}) {
     //         }
     //     })
 
-    //     // update toDos in state and and update localstorage
+    //     // update toDos in state and update localstorage
     //     // saveToDos(newToDos, newAllToDos)
     // }
 

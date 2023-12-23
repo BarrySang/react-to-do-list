@@ -6,6 +6,7 @@ function ViewToDos ( { toDo, setToDo, toDos, deleteToDo, toggleChecked, getSpeci
     
     // check if the component has been called from a route and get the appropriate to-dos
     if (dateParam) {
+        date = dateParam
         let specificToDos = getSpecificToDos(dateParam)
         if(specificToDos && specificToDos.length) {
             toDos = specificToDos[0].toDosArray
@@ -17,18 +18,24 @@ function ViewToDos ( { toDo, setToDo, toDos, deleteToDo, toggleChecked, getSpeci
         return (
             <div>
                 {
-                    dateParam ? <h2>{dateParam}</h2> : ''
+                    date ? <h2>{dateParam}</h2> : ''
                 }
                 {
-                    dateParam && dateParam > getTodaysDate() ? <AddToDo toDo={toDo} setToDo={setToDo} addToDo={addToDo} toDos={toDos} date={dateParam} /> : ''
+                    date && date > getTodaysDate() ? <AddToDo toDo={toDo} setToDo={setToDo} addToDo={addToDo} toDos={toDos} date={date} /> : ''
                 }
                 
                 {toDos.map(toDo => (
                     <p key={toDo.id} className="toDo-container">
-                        <input type="checkbox" checked={toDo.checked} onChange={() => toggleChecked(toDo.id, toDos, date)}/>
+                        {
+                            date && date < getTodaysDate() ? <input type="checkbox" checked={toDo.checked} readOnly /> : <input type="checkbox" checked={toDo.checked} onChange={() => toggleChecked(toDo.id, toDos, date)}/>
+                        }
+                        {/* <input type="checkbox" checked={toDo.checked} onChange={() => toggleChecked(toDo.id, toDos, date)}/> */}
                         <label>{toDo.toDosText}</label>
                         {' '}
-                        <button onClick={() => deleteToDo(toDo.id)}>Delete To-Do</button>
+                        {
+                            date && date < getTodaysDate() ? '' : <button onClick={() => deleteToDo(toDo.id, toDos, date)}>Delete To-Do</button>
+                        }
+                        {/* <button onClick={() => deleteToDo(toDo.id, toDos, date)}>Delete To-Do</button> */}
                     </p>
                 ))}
             </div>
