@@ -13,7 +13,7 @@ function ToDosListGroups ({toDosListGroups, btnLink}) {
                     <p key={toDosListGroup.date}>
                         
                         <label>{toDosListGroup.date}</label>
-                        <button><Link to={btnLink+toDosListGroup.date} >Open</Link></button>
+                        <button><Link to={'/react-to-do-list'+btnLink+toDosListGroup.date} >Open</Link></button>
                     </p>
                 ))}
             </div>

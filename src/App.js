@@ -138,12 +138,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/react-to-do-list" element={<Layout />}>
           <Route index element={<Home getTodaysDate={getTodaysDate} addToDo={addToDo} setToDo={setToDo} toDo={toDo} toDos={todaysToDos} toggleChecked={toggleChecked} deleteToDo={deleteToDo} />} />
-          <Route path="upcomingToDos" element={<UpcomingToDos upcomingToDos={upcomingToDos} />} />
-          <Route path="upcomingToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />} />
-          <Route path="olderToDos" element={<OlderToDos olderToDos={olderToDos} />} />
-          <Route path="olderToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} />} />
+          <Route path="/react-to-do-list/upcomingToDos" element={<UpcomingToDos upcomingToDos={upcomingToDos} />} />
+          <Route path="/react-to-do-list/upcomingToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />} />
+          <Route path="/react-to-do-list/olderToDos" element={<OlderToDos olderToDos={olderToDos} />} />
+          <Route path="/react-to-do-list/olderToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} />} />
         </Route>
       </Routes>
     </BrowserRouter>

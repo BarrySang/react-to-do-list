@@ -8,13 +8,13 @@ function Layout () {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/react-to-do-list">Home</Link>
                     </li>
                     <li>
-                        <Link to="/upcomingToDos">Upcoming To-Dos</Link>
+                        <Link to="/react-to-do-list/upcomingToDos">Upcoming To-Dos</Link>
                     </li>
                     <li>
-                        <Link to="/olderToDos">Older To-Dos</Link>
+                        <Link to="/react-to-do-list/olderToDos">Older To-Dos</Link>
                     </li>
                 </ul>
             </nav>
