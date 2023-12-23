@@ -69,31 +69,30 @@ function App() {
 
   // function to toggle 'checked' property of a to-do
   function toggleChecked(toDoId, toDos, date) {
+
     // change the 'checked' value of the toDo with the id 'toDoId'
     let newToDos = toDos.map(toDo => {
         if (toDo.id === toDoId) {
+            // return {...toDo, checked: !toDo.checked}
             return {...toDo, checked: !toDo.checked}
         } else {
             return toDo
         }
     })
 
-    console.log(newToDos)
+    // console.log(newToDos)
 
     // update allToDos
     let newAllToDos = testAllToDos.map(toDos => {
         if (toDos.date !== date) {
             return toDos
         } else {
-          console.log(newToDos)
             return {
                 ...toDos,
                 toDosArray: newToDos
             }
         }
     })
-
-    // console.log(newAllToDos)
 
     // update toDos in state and and update localstorage
     localStorage.setItem('allToDos', JSON.stringify(newAllToDos))
@@ -104,6 +103,7 @@ function App() {
     if (!toDo) {
       return
     }
+
     console.log(toDos)
     // new set of to-dos
     let newToDos = [
@@ -134,9 +134,9 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home getTodaysDate={getTodaysDate} addToDo={addToDo} setToDo={setToDo} toDo={toDo} toDos={todaysToDos} toggleChecked={toggleChecked} />} />
           <Route path="upcomingToDos" element={<UpcomingToDos upcomingToDos={upcomingToDos} />} />
-          <Route path="upcomingToDos/:date" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} />} />
+          <Route path="upcomingToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} />} />
           <Route path="olderToDos" element={<OlderToDos olderToDos={olderToDos} />} />
-          <Route path="olderToDos/:date" element={<ViewToDos getSpecificToDos={getSpecificToDos}/>} />
+          <Route path="olderToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos}/>} />
         </Route>
       </Routes>
     </BrowserRouter>
