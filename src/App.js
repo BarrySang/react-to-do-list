@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
 import Layout from './components/Layout';
@@ -14,6 +14,10 @@ function App() {
   const [todaysToDos, setTodaysToDos] = useState([])
   const [toDo, setToDo] = useState('');
   const [testAllToDos, setTestAllToDos] = useState([])
+  const [selectedDate, setSelectedDate] = useState('')
+  // const navigate = useNavigate()
+  // const history = useHistory
+
 
   // get toDos from localstorage if they already exist
   useEffect(() => {
@@ -23,16 +27,30 @@ function App() {
   // set to-dos
   useEffect(() => {
     let today = new Date()
-    let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()
+    let date = getTodaysDate()
+    // let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()
     let toDosUpcoming = testAllToDos.filter(toDos => toDos.date > date)
     let toDosToday = testAllToDos.filter(toDos => toDos.date === date)
     let toDosOlder = testAllToDos.filter(toDos => toDos.date < date)
-    // console.log(toDosToday)
-
     setTodaysToDos(toDosToday.length ? toDosToday[0] : [])
     setUpcomingToDos(toDosUpcoming.length ? toDosUpcoming : [])
     setOlderToDos(toDosOlder.length ? toDosOlder: [])
   }, [testAllToDos])
+
+  // // redirect to selected date
+  // useEffect(() => {
+  //   console.log(selectedDate)
+  //   if (selectedDate) {
+  //     navigate(`/react-to-do-list/${selectedDate}`)
+  //   }
+    
+  // }, [selectedDate])
+
+  // get selected date from the calendar
+  function getSelectedDate(event) {
+    let date = new Date(event.target.value)
+    setSelectedDate(date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear())
+  }
 
   // function to get today's date
   function getTodaysDate() {
@@ -138,12 +156,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/react-to-do-list" element={<Layout />}>
-          <Route index element={<Home getTodaysDate={getTodaysDate} addToDo={addToDo} setToDo={setToDo} toDo={toDo} toDos={todaysToDos} toggleChecked={toggleChecked} deleteToDo={deleteToDo} />} />
+        <Route path="/react-to-do-list" element={<Layout selectedDate={selectedDate} getSelectedDate={getSelectedDate} />}>
+          {/* <Route index element={<Home getTodaysDate={getTodaysDate} addToDo={addToDo} setToDo={setToDo} toDo={toDo} toDos={todaysToDos} toggleChecked={toggleChecked} deleteToDo={deleteToDo} />} /> */}
+          <Route index element={<ViewToDos date={getTodaysDate()} getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />} />
           <Route path="/react-to-do-list/upcomingToDos" element={<UpcomingToDos upcomingToDos={upcomingToDos} />} />
-          <Route path="/react-to-do-list/upcomingToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />} />
+          <Route path="/react-to-do-list/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />} />
           <Route path="/react-to-do-list/olderToDos" element={<OlderToDos olderToDos={olderToDos} />} />
-          <Route path="/react-to-do-list/olderToDos/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} />} />
+          <Route path={`/react-to-do-list/${getTodaysDate()}`} element={<Navigate to="/react-to-do-list" />} />
         </Route>
       </Routes>
     </BrowserRouter>

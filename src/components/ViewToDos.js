@@ -3,9 +3,16 @@ import AddToDo from "./AddToDo";
 
 function ViewToDos ( { toDo, setToDo, toDos, deleteToDo, toggleChecked, getSpecificToDos, getTodaysDate, addToDo, date} ) {
     let { dateParam } = useParams()
+
+    // console.log(date)
     
-    // check if the component has been called from a route and get the appropriate to-dos
-    if (dateParam) {
+    // get to-dos based on date
+    if (date) {
+        let specificToDos = getSpecificToDos(date)
+        if(specificToDos && specificToDos.length) {
+            toDos = specificToDos[0].toDosArray
+        }
+    } else if (dateParam) {
         date = dateParam
         let specificToDos = getSpecificToDos(dateParam)
         if(specificToDos && specificToDos.length) {
@@ -21,7 +28,7 @@ function ViewToDos ( { toDo, setToDo, toDos, deleteToDo, toggleChecked, getSpeci
                     date ? <h2>{dateParam}</h2> : ''
                 }
                 {
-                    date && date > getTodaysDate() ? <AddToDo toDo={toDo} setToDo={setToDo} addToDo={addToDo} toDos={toDos} date={date} /> : ''
+                    date && date >= getTodaysDate() ? <AddToDo toDo={toDo} setToDo={setToDo} addToDo={addToDo} toDos={toDos} date={date} /> : ''
                 }
                 
                 {toDos.map(toDo => (
