@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function ToDosListGroups ({toDosListGroups, btnLink}) {
-    // console.log(toDosListGroup)
-    console.log(toDosListGroups)
 
     if (toDosListGroups && toDosListGroups.length > 0) {
         

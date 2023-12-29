@@ -1,7 +1,6 @@
 import ToDosListGroups from "./ToDosListGroups"
 
 function OlderToDos ({olderToDos}) {
-    console.log(olderToDos)
     
     if (olderToDos.length) {
         return (

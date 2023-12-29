@@ -7,7 +7,6 @@ function Layout ({selectedDate, getSelectedDate}) {
     const navigate = useNavigate()
 
     useEffect(() => {
-        // console.log(selectedDate)
         navigate(`/react-to-do-list/${selectedDate}`)
     }, [selectedDate])
 

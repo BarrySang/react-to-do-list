@@ -1,22 +1,27 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import AddToDo from "./AddToDo";
 
-function ViewToDos ( { toDo, setToDo, toDos, deleteToDo, toggleChecked, getSpecificToDos, getTodaysDate, addToDo, date} ) {
+function ViewToDos ( { toDo, setToDo, deleteToDo, toggleChecked, getSpecificToDos, getTodaysDate, addToDo, date} ) {
+    // const [toDos, setToDos] = useState([])
+    // const [specificToDos, setSpecificToDos]
+    
+    let toDos = []
+
     let { dateParam } = useParams()
 
-    // console.log(date)
     
-    // get to-dos based on date
     if (date) {
         let specificToDos = getSpecificToDos(date)
         if(specificToDos && specificToDos.length) {
-            toDos = specificToDos[0].toDosArray
+            toDos = (specificToDos[0].toDosArray)
         }
-    } else if (dateParam) {
+    }
+    if (dateParam) {
         date = dateParam
         let specificToDos = getSpecificToDos(dateParam)
         if(specificToDos && specificToDos.length) {
-            toDos = specificToDos[0].toDosArray
+            toDos = (specificToDos[0].toDosArray)
         }
     }
 
@@ -36,17 +41,18 @@ function ViewToDos ( { toDo, setToDo, toDos, deleteToDo, toggleChecked, getSpeci
                         {
                             date && date < getTodaysDate() ? <input type="checkbox" checked={toDo.checked} readOnly /> : <input type="checkbox" checked={toDo.checked} onChange={() => toggleChecked(toDo.id, toDos, date)}/>
                         }
-                        {/* <input type="checkbox" checked={toDo.checked} onChange={() => toggleChecked(toDo.id, toDos, date)}/> */}
+                        
                         <label>{toDo.toDosText}</label>
                         {' '}
                         {
                             date && date < getTodaysDate() ? '' : <button onClick={() => deleteToDo(toDo.id, toDos, date)}>Delete To-Do</button>
                         }
-                        {/* <button onClick={() => deleteToDo(toDo.id, toDos, date)}>Delete To-Do</button> */}
+                        
                     </p>
                 ))}
             </div>
         );
+        
         
         
     } else {

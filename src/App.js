@@ -37,15 +37,6 @@ function App() {
     setOlderToDos(toDosOlder.length ? toDosOlder: [])
   }, [testAllToDos])
 
-  // // redirect to selected date
-  // useEffect(() => {
-  //   console.log(selectedDate)
-  //   if (selectedDate) {
-  //     navigate(`/react-to-do-list/${selectedDate}`)
-  //   }
-    
-  // }, [selectedDate])
-
   // get selected date from the calendar
   function getSelectedDate(event) {
     let date = new Date(event.target.value)
@@ -102,8 +93,6 @@ function App() {
         }
     })
 
-    // console.log(newToDos)
-
     // update allToDos
     let newAllToDos = testAllToDos.map(toDos => {
         if (toDos.date !== date) {
@@ -126,7 +115,6 @@ function App() {
       return
     }
 
-    console.log(toDos)
     // new set of to-dos
     let newToDos = [
       ...toDos,

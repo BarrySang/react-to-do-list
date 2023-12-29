@@ -2,7 +2,7 @@ import ToDosListGroups from "./ToDosListGroups";
 import ViewToDos from "./ViewToDos";
 
 function UpcomingToDos ({upcomingToDos}) {
-    // console.log(upcomingToDos)
+    
     if (upcomingToDos.length) {
         
         return (
