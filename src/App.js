@@ -15,8 +15,6 @@ function App() {
   const [toDo, setToDo] = useState('');
   const [testAllToDos, setTestAllToDos] = useState([])
   const [selectedDate, setSelectedDate] = useState('')
-  // const navigate = useNavigate()
-  // const history = useHistory
 
 
   // get toDos from localstorage if they already exist
@@ -29,9 +27,9 @@ function App() {
     let today = new Date()
     let date = getTodaysDate()
     // let date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()
-    let toDosUpcoming = testAllToDos.filter(toDos => toDos.date > date)
-    let toDosToday = testAllToDos.filter(toDos => toDos.date === date)
-    let toDosOlder = testAllToDos.filter(toDos => toDos.date < date)
+    let toDosUpcoming = testAllToDos.filter(toDos => parseDateString(toDos.date) > parseDateString(date))
+    let toDosToday = testAllToDos.filter(toDos => parseDateString(toDos.date) === parseDateString(date))
+    let toDosOlder = testAllToDos.filter(toDos => parseDateString(toDos.date) < parseDateString(date))
     setTodaysToDos(toDosToday.length ? toDosToday[0] : [])
     setUpcomingToDos(toDosUpcoming.length ? toDosUpcoming : [])
     setOlderToDos(toDosOlder.length ? toDosOlder: [])
@@ -53,6 +51,12 @@ function App() {
   function getSpecificToDos (date) {
     let toDos = testAllToDos.filter(toDos => toDos.date === date)
     return toDos
+  }
+
+  // function parse date string
+  function parseDateString(dateString) {
+    const [day, month, year] = dateString.split('-').map(Number)
+    return new Date(year, month-1, day)
   }
 
   // function to delete to-dos
@@ -111,6 +115,7 @@ function App() {
   }
 
   function addToDo (toDo, toDos, date) {
+    let newAllToDos = []
     if (!toDo) {
       return
     }
@@ -121,17 +126,28 @@ function App() {
       {id: toDos.length ? toDos[toDos.length - 1].id + 1 : 1, toDosText: toDo, checked: false}
     ];
     
-
-    let newAllToDos = testAllToDos.map(toDos => {
-        if (toDos.date !== date) {
-            return toDos
-        } else {
-            return {
+    // check if date already exists
+    if (testAllToDos.some(toDos => toDos['date'] === date)) {
+      // new set of all to-dos
+      newAllToDos = testAllToDos.map(toDos => {
+      if (toDos.date !== date) {
+        return toDos
+      } else {
+        return {
                 ...toDos,
                 toDosArray: newToDos
-            }
+              }
+          }
+      })  
+    } else {
+      newAllToDos = [
+        ...testAllToDos,
+        {
+          date: date,
+          toDosArray: newToDos
         }
-    })
+      ]
+    }
 
     // setTestAllToDos(newAllToDos)
     localStorage.setItem('allToDos', JSON.stringify(newAllToDos))
@@ -146,9 +162,9 @@ function App() {
       <Routes>
         <Route path="/react-to-do-list" element={<Layout selectedDate={selectedDate} getSelectedDate={getSelectedDate} />}>
           {/* <Route index element={<Home getTodaysDate={getTodaysDate} addToDo={addToDo} setToDo={setToDo} toDo={toDo} toDos={todaysToDos} toggleChecked={toggleChecked} deleteToDo={deleteToDo} />} /> */}
-          <Route index element={<ViewToDos date={getTodaysDate()} getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />} />
+          <Route index element={<ViewToDos date={getTodaysDate()} getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} parseDateString={parseDateString} />} />
           <Route path="/react-to-do-list/upcomingToDos" element={<UpcomingToDos upcomingToDos={upcomingToDos} />} />
-          <Route path="/react-to-do-list/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} />} />
+          <Route path="/react-to-do-list/:dateParam" element={<ViewToDos getSpecificToDos={getSpecificToDos} getTodaysDate={getTodaysDate} addToDo={addToDo} toDo={toDo} setToDo={setToDo} deleteToDo={deleteToDo} toggleChecked={toggleChecked} parseDateString={parseDateString} />} />
           <Route path="/react-to-do-list/olderToDos" element={<OlderToDos olderToDos={olderToDos} />} />
           <Route path={`/react-to-do-list/${getTodaysDate()}`} element={<Navigate to="/react-to-do-list" />} />
         </Route>

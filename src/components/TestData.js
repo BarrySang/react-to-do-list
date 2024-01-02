@@ -1,6 +1,6 @@
 let allToDos = [
     {
-      date: "27-12-2023",
+      date: "31-12-2023",
       toDosArray: [
         {
           id: 1,
@@ -20,7 +20,7 @@ let allToDos = [
       ]
     },
     {
-      date: "28-12-2023",
+      date: "1-1-2024",
       toDosArray: [
         {
           id: 1,
@@ -40,7 +40,7 @@ let allToDos = [
       ]
     },
     {
-      date: "29-12-2023",
+      date: "2-1-2024",
       toDosArray: [
         {
           id: 1,
@@ -60,7 +60,7 @@ let allToDos = [
       ]
     },
     {
-      date: "30-12-2023",
+      date: "3-1-2024",
       toDosArray: [
         {
           id: 1,
