@@ -60,7 +60,7 @@ function ViewToDos ( { toDo, setToDo, deleteToDo, toggleChecked, getSpecificToDo
         return (
             <div>
                 {
-                    date && parseDateString(date) > parseDateString(getTodaysDate()) && <AddToDo toDo={toDo} setToDo={setToDo} addToDo={addToDo} toDos={toDos} date={date} />
+                    date && parseDateString(date) >= parseDateString(getTodaysDate()) && <AddToDo toDo={toDo} setToDo={setToDo} addToDo={addToDo} toDos={toDos} date={date} />
                 }
                 <p>No to-dos</p>
             </div>
